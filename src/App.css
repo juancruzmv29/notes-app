@@ -1,10 +1,35 @@
 .App {
   text-align: center;
   display: flex;
+  width: 100%;
+  height: 100vh;
   flex-direction: column;
-  justify-content: center;
   background-image: url("../public/img.jpg");
   background-repeat: no-repeat;
   background-size: cover;
+  font-family: 'Roboto', sans-serif
 }
 
+.container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.title {
+  color: aliceblue;
+}
+
+.box_input {
+  display: flex;
+  flex-direction: column;
+}
+.input_note,
+.button_note {
+  width: 100px;
+}
+.input_note {
+  color: aliceblue;
+}

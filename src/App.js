@@ -1,19 +1,33 @@
 import './App.css';
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import Note from './components/Note/Note';
+import Swal from 'sweetalert2';
+import withReactContent from 'sweetalert2-react-content';
 
 
 // COMPONENTE PRINCIPAL 
-function App() {
+const App = () => {
 
-
+  
   const [note, setNote] = useState("")
   const [allNotes, setAllNotes] = useState([])
   const [showAll, setShowAll] = useState([])
   const [edit, setEdit] = useState(false)
+  const MySwal = withReactContent(Swal)
+
+  /*
+  useEffect(() => {
+    let notesFromLS = JSON.parse(window.localStorage.getItem("notes"))
+
+    if(notesFromLS) {
+      setAllNotes(notesFromLS)
+    }
+  }, [])
+  */
+
 
   // FUNCION PARA ENVIAR EL FORMULARIO
   const handleSubmit = e => {
@@ -28,7 +42,18 @@ function App() {
     }
 
     setAllNotes([...allNotes, newNote])
+    MySwal.fire({
+      position: "bottom-end",
+      icon: "success",
+      title: "Tu nota ha sido guardada",
+      showConfirmButton: false,
+      timer: 1300
+    })
     setNote("")
+  }
+
+  const handleResetNotes = () => {
+    setAllNotes([])
   }
 
   // PARA CAMBIAR EL MANEJO DEL CHANGE
@@ -47,7 +72,6 @@ function App() {
 
     setAllNotes([...allNotes, changeNoteImportance])
   }
-
 
 
   // PARA ELIMINAR NOTE
@@ -80,40 +104,47 @@ function App() {
 
   return (
     <div className="App">
-      <h1>App notes</h1>
-
       <Box
-        component="form"
-        sx={{
-          '& > :not(style)': { m: 1, width: '25ch' },
-        }}
-        noValidate
-        autoComplete="off"
-        onSubmit={handleSubmit}
+        component="div"
+        className='container'
       >
-      <TextField id="outlined-basic" label="Note" variant="outlined" value={note} onChange={handleNoteChange}/>
-      <Button variant="outlined" disabled={isDisabled}>{edit ? "Guardar cambios" : "Guardar Nota"}</Button>
-    </Box>
+        <h1 className='title'>App notes</h1>
 
-    <Box>
-      <Button onClick={() => setShowAll(!showAll)}>Mostrar {showAll ? "importantes" : "todas"}</Button>
-      <Button >Mostrar {showAll ? "hechas" : "sin hacer"}</Button>
-    </Box>
+        <Box
+          component="form"
+          sx={{
+            '& > :not(style)': { m: 1, width: '25ch' },
+          }}
+          className="box_input"
+          noValidate
+          autoComplete="off"
+          onSubmit={handleSubmit}
+        >
+          <TextField id="outlined-basic" label="Nota" className='input_note' variant="outlined" value={note} onChange={handleNoteChange}/>
+          <Button variant="outlined" type='submit' disabled={isDisabled} className="button_note">{edit ? "Guardar cambios" : "Guardar Nota"}</Button>
+        </Box>
 
-    <Box>
-      <ul>
-        {showNotes.map((note) => (
-          <Note 
-              key={note.id} 
-              note={note} 
-              deleteNote={() => deleteNote(note.id)} 
-              editNote={() => editNote(note.id)} 
-              toggleImportance={() => toggleImportanceOf(note.id)} 
-          />
-        ))}
-      </ul>
+        <Box className='container_buttons'>
+          <Button onClick={() => setShowAll(!showAll)}>Mostrar {showAll ? "importantes" : "todas"}</Button>
+          <Button >Mostrar {showAll ? "hechas" : "sin hacer"}</Button>
+          <Button onClick={handleResetNotes} >Resetear notas</Button>
+        </Box>
+
+        <Box>
+          <ul className='notes_list'>
+            {showNotes.map((note) => (
+              <Note 
+                  key={note.id} 
+                  note={note} 
+                  deleteNote={deleteNote} 
+                  editNote={editNote} 
+                  toggleImportance={() => toggleImportanceOf(note.id)} 
+              />
+            ))}
+          </ul>
+        </Box>
     </Box>
-    </div>
+  </div>
   );
 }
 
