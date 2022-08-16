@@ -1,8 +1,22 @@
 import React from 'react'
 
-const Note = () => {
+// COMPONENTE NOTE
+const Note = ({ note, deleteNote, editNote, toggleImportance }) => {
+
+    const label = note.important ? "make not important" : "make important"
+
+    const { content, date } = note
+
   return (
-    <div>Note</div>
+    <li>
+        <header>{date}</header>
+        <p>{content}</p>
+        <div>
+            <button onClick={deleteNote}>Eliminar</button>
+            <button onClick={editNote}>Editar</button>
+            <button onClick={toggleImportance}>{label}</button>
+        </div>
+    </li>
   )
 }
 
