@@ -1,11 +1,9 @@
 import React from 'react'
 import "./Note.css"
-import Button from '@mui/material/Button';
-import Stack from '@mui/material/Stack';
 
 
 // COMPONENTE NOTE
-const Note = ({ note, deleteNote, editNote, toggleImportance }) => {
+const Note = ({ note, deleteNote, toggleImportance, setDataToEdit }) => {
 
     const label = note.important ? "make not important" : "make important"
 
@@ -15,11 +13,11 @@ const Note = ({ note, deleteNote, editNote, toggleImportance }) => {
     <li>
         <header>{date}</header>
         <p>{content}</p>
-        <Stack direction="row" spacing={.5} className='buttons'>
-            <Button onClick={() => deleteNote(id)}>Eliminar</Button>
-            <Button onClick={() => editNote(id)}>Editar</Button>
-            <Button onClick={toggleImportance}>{label}</Button>
-        </Stack>
+        <div className='buttons'>
+            <button onClick={() => deleteNote(id)}>Eliminar</button>
+            <button onClick={() => setDataToEdit(content)}>Editar</button>
+            <button onClick={toggleImportance}>{label}</button>
+        </div>
     </li>
   )
 }
