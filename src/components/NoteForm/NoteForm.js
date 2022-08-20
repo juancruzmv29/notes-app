@@ -22,6 +22,7 @@ const NoteForm = ({ createNote, setDataToEdit, updateNote, dataToEdit }) => {
     // EFECTO PARA CUANDO HAY DATA TO EDIT
     useEffect(() => {
         if(dataToEdit) {
+            // Se va a actualizar el esdtado del form(nota) con el dataTopEdit que va a tener toda la note
           setForm(dataToEdit)
         } else {
             setForm(initialForm)
